@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ruleset name="CustomHome">
+    <description>Moodle coding standard for local_customhome</description>
+    <arg name="colors"/>
+    <arg value="sp"/>
+    <config name="installed_paths" value="/tmp/codechecker"/>
+    <rule ref="moodle"/>
+</ruleset>

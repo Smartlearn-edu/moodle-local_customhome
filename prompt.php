@@ -1,6 +1,5 @@
 <?php
-
-// This file is part of Moodle - https://moodle.org/
+// This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * AI Prompt Generator Tool
@@ -38,8 +37,7 @@ admin_externalpage_setup('local_customhome_prompt');
  * @copyright  2024 Smart Learn
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_customhome_prompt_form extends moodleform
-{
+class local_customhome_prompt_form extends moodleform {
     /**
      * Form definition.
      */
@@ -350,19 +348,46 @@ if ($data = $mform->get_data()) {
 
     // Competitor features
     $dataaudience = $data->audience ?? '';
-    $audiencemap = ['beginners' => 'Beginners/Novices', 'professionals' => 'Working Professionals', 'children' => 'Children & Parents', 'hobbyists' => 'Hobbyists', 'corporates' => 'Corporate Entities'];
+    $audiencemap = [
+        'beginners' => 'Beginners/Novices',
+        'professionals' => 'Working Professionals',
+        'children' => 'Children & Parents',
+        'hobbyists' => 'Hobbyists',
+        'corporates' => 'Corporate Entities'
+    ];
     $audience = isset($audiencemap[$dataaudience]) ? $audiencemap[$dataaudience] : 'General learners';
 
     $datatone = $data->tone ?? '';
-    $tonemap = ['professional' => 'Professional & Trustworthy', 'fun' => 'Fun & Energetic', 'calm' => 'Calm & Minimalist', 'bold' => 'Bold & Innovative'];
+    $tonemap = [
+        'professional' => 'Professional & Trustworthy',
+        'fun' => 'Fun & Energetic',
+        'calm' => 'Calm & Minimalist',
+        'bold' => 'Bold & Innovative'
+    ];
     $tone = isset($tonemap[$datatone]) ? $tonemap[$datatone] : 'Professional';
 
     $dataprimarycta = $data->primarycta ?? '';
-    $ctamap = ['freetrial' => 'Start Free Trial', 'joincommunity' => 'Join the Community', 'explore' => 'Explore Courses', 'register' => 'Register Now', 'booksession' => 'Book a Session', 'enroll' => 'Enroll Now', 'subscribe' => 'Subscribe', 'demo' => 'Book a Demo', 'learnmore' => 'Learn More'];
+    $ctamap = [
+        'freetrial' => 'Start Free Trial',
+        'joincommunity' => 'Join the Community',
+        'explore' => 'Explore Courses',
+        'register' => 'Register Now',
+        'booksession' => 'Book a Session',
+        'enroll' => 'Enroll Now',
+        'subscribe' => 'Subscribe',
+        'demo' => 'Book a Demo',
+        'learnmore' => 'Learn More'
+    ];
     $primarycta = isset($ctamap[$dataprimarycta]) ? $ctamap[$dataprimarycta] : 'Learn More';
 
     $dataprimarylanguage = $data->primarylanguage ?? '';
-    $primarylanguagemap = ['english' => 'English', 'arabic' => 'Arabic', 'french' => 'French', 'spanish' => 'Spanish', 'other' => 'Other'];
+    $primarylanguagemap = [
+        'english' => 'English',
+        'arabic' => 'Arabic',
+        'french' => 'French',
+        'spanish' => 'Spanish',
+        'other' => 'Other'
+    ];
     $primarylangstr = isset($primarylanguagemap[$dataprimarylanguage]) ? $primarylanguagemap[$dataprimarylanguage] : 'English';
 
     $datatextdirection = $data->textdirection ?? '';
@@ -370,7 +395,12 @@ if ($data = $mform->get_data()) {
     $directionstr = isset($directionsmap[$datatextdirection]) ? $directionsmap[$datatextdirection] : 'Auto-detect';
 
     $dataplatformmodel = $data->platformmodel ?? '';
-    $modelsmap = ['free' => 'Free / Open Access', 'paid' => 'Paid Courses', 'subscription' => 'Subscription', 'freemium' => 'Freemium'];
+    $modelsmap = [
+        'free' => 'Free / Open Access',
+        'paid' => 'Paid Courses',
+        'subscription' => 'Subscription',
+        'freemium' => 'Freemium'
+    ];
     $modelstr = isset($modelsmap[$dataplatformmodel]) ? $modelsmap[$dataplatformmodel] : 'Paid Courses';
 
     $designreference = !empty($data->designreference) ? $data->designreference : '';

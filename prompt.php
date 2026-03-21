@@ -22,60 +22,72 @@ class local_customhome_prompt_form extends moodleform {
         // --- Site Identity & Type ---
         $mform->addElement('header', 'hdr_sitetype', get_string('sitetype_hdr', 'local_customhome'));
         
-        $categories = [
+        // 1. Site Type
+        $sitetypes = [
             '' => get_string('choose'),
-            'academic' => get_string('cat_academic', 'local_customhome'),
-            'corporate' => get_string('cat_corporate', 'local_customhome'),
-            'ecommerce' => get_string('cat_ecommerce', 'local_customhome'),
-            'kids' => get_string('cat_kids', 'local_customhome'),
-            'coaching' => get_string('cat_coaching', 'local_customhome'),
-            'health' => get_string('cat_health', 'local_customhome'),
-            'creative' => get_string('cat_creative', 'local_customhome'),
-            'tech' => get_string('cat_tech', 'local_customhome'),
-            'language' => get_string('cat_language', 'local_customhome'),
-            'community' => get_string('cat_community', 'local_customhome'),
+            'school' => 'School (K-12)',
+            'university' => 'University',
+            'corporate' => 'Corporate',
+            'marketplace' => 'Marketplace',
+            'coaching' => 'Coaching',
+            'ngo' => 'NGO',
+            'gov' => 'Government',
+            'religious' => 'Religious Institution',
+            'health' => 'Health & Medical',
         ];
-        $mform->addElement('select', 'sitecategory', get_string('sitecategory', 'local_customhome'), $categories);
+        $mform->addElement('select', 'sitetype', get_string('sitetype', 'local_customhome'), $sitetypes);
 
-        $sub_academic = ['school' => 'School', 'university' => 'University/College', 'k12' => 'K-12 Platform', 'academy' => 'Specialized Academy'];
-        $mform->addElement('select', 'sub_academic', get_string('sitesubcategory', 'local_customhome'), $sub_academic);
-        $mform->hideIf('sub_academic', 'sitecategory', 'neq', 'academic');
+        // 2. Content Focus
+        $focuses = [
+            '' => get_string('choose'),
+            'tech' => 'Tech & Coding',
+            'language' => 'Language Learning',
+            'islamic' => 'Islamic Education',
+            'creative' => 'Creative Arts',
+            'wellness' => 'Health & Wellness',
+            'academic' => 'Academic',
+            'kids' => 'Kids Learning',
+            'business' => 'Business & Professional',
+            'hobby' => 'Hobby & Lifestyle',
+        ];
+        $mform->addElement('select', 'contentfocus', get_string('contentfocus', 'local_customhome'), $focuses);
 
-        $sub_corporate = ['internal' => 'Internal Employee Training', 'compliance' => 'Compliance & Safety', 'b2b' => 'B2B Client Training'];
-        $mform->addElement('select', 'sub_corporate', get_string('sitesubcategory', 'local_customhome'), $sub_corporate);
-        $mform->hideIf('sub_corporate', 'sitecategory', 'neq', 'corporate');
-
-        $sub_ecommerce = ['b2c' => 'B2C Course Sales', 'subscription' => 'Subscription/Membership', 'masterclass' => 'Masterclasses'];
-        $mform->addElement('select', 'sub_ecommerce', get_string('sitesubcategory', 'local_customhome'), $sub_ecommerce);
-        $mform->hideIf('sub_ecommerce', 'sitecategory', 'neq', 'ecommerce');
-
-        $sub_kids = ['early' => 'Early Childhood', 'gamified' => 'Gamified Learning', 'stem' => 'STEM for Kids', 'arts' => 'Kids Arts & Crafts'];
-        $mform->addElement('select', 'sub_kids', get_string('sitesubcategory', 'local_customhome'), $sub_kids);
-        $mform->hideIf('sub_kids', 'sitecategory', 'neq', 'kids');
-
-        $sub_coaching = ['1on1' => '1-on-1 Mentorship', 'group' => 'Group Coaching', 'testprep' => 'Test Preparation'];
-        $mform->addElement('select', 'sub_coaching', get_string('sitesubcategory', 'local_customhome'), $sub_coaching);
-        $mform->hideIf('sub_coaching', 'sitecategory', 'neq', 'coaching');
-
-        $sub_health = ['yoga' => 'Yoga & Mindfulness', 'fitness' => 'Personal Training', 'nutrition' => 'Nutrition & Diet'];
-        $mform->addElement('select', 'sub_health', get_string('sitesubcategory', 'local_customhome'), $sub_health);
-        $mform->hideIf('sub_health', 'sitecategory', 'neq', 'health');
-
-        $sub_creative = ['design' => 'Design & Illustration', 'music' => 'Music Production', 'photo' => 'Photography & Video'];
-        $mform->addElement('select', 'sub_creative', get_string('sitesubcategory', 'local_customhome'), $sub_creative);
-        $mform->hideIf('sub_creative', 'sitecategory', 'neq', 'creative');
-
+        // 3. Sub-category (dynamic based on Content Focus)
         $sub_tech = ['bootcamp' => 'Coding Bootcamp', 'data' => 'Data Science & AI', 'cert' => 'IT Certification'];
         $mform->addElement('select', 'sub_tech', get_string('sitesubcategory', 'local_customhome'), $sub_tech);
-        $mform->hideIf('sub_tech', 'sitecategory', 'neq', 'tech');
+        $mform->hideIf('sub_tech', 'contentfocus', 'neq', 'tech');
 
         $sub_language = ['esl' => 'English as a Second Language', 'immersion' => 'Language Immersion', 'exam' => 'Language Exam Prep (IELTS/TOEFL)'];
         $mform->addElement('select', 'sub_language', get_string('sitesubcategory', 'local_customhome'), $sub_language);
-        $mform->hideIf('sub_language', 'sitecategory', 'neq', 'language');
+        $mform->hideIf('sub_language', 'contentfocus', 'neq', 'language');
+        
+        $sub_islamic = ['quran' => 'Quran Studies', 'fiqh' => 'Fiqh & Jurisprudence', 'seerah' => 'Seerah & History', 'kidsislam' => 'Islamic Studies for Kids'];
+        $mform->addElement('select', 'sub_islamic', get_string('sitesubcategory', 'local_customhome'), $sub_islamic);
+        $mform->hideIf('sub_islamic', 'contentfocus', 'neq', 'islamic');
 
-        $sub_community = ['hobby' => 'Hobby & Crafts', 'diy' => 'Home & DIY', 'pet' => 'Pet Care & Training'];
-        $mform->addElement('select', 'sub_community', get_string('sitesubcategory', 'local_customhome'), $sub_community);
-        $mform->hideIf('sub_community', 'sitecategory', 'neq', 'community');
+        $sub_creative = ['design' => 'Design & Illustration', 'music' => 'Music Production', 'photo' => 'Photography & Video'];
+        $mform->addElement('select', 'sub_creative', get_string('sitesubcategory', 'local_customhome'), $sub_creative);
+        $mform->hideIf('sub_creative', 'contentfocus', 'neq', 'creative');
+
+        $sub_wellness = ['yoga' => 'Yoga & Mindfulness', 'fitness' => 'Personal Training', 'nutrition' => 'Nutrition & Diet'];
+        $mform->addElement('select', 'sub_wellness', get_string('sitesubcategory', 'local_customhome'), $sub_wellness);
+        $mform->hideIf('sub_wellness', 'contentfocus', 'neq', 'wellness');
+
+        $sub_academic = ['exam' => 'Exam Preparation', 'stem' => 'STEM Subjects', 'humanities' => 'Arts & Humanities'];
+        $mform->addElement('select', 'sub_academic', get_string('sitesubcategory', 'local_customhome'), $sub_academic);
+        $mform->hideIf('sub_academic', 'contentfocus', 'neq', 'academic');
+
+        $sub_kids = ['early' => 'Early Childhood', 'gamified' => 'Gamified Learning', 'stemkids' => 'STEM for Kids', 'artskids' => 'Kids Arts & Crafts'];
+        $mform->addElement('select', 'sub_kids', get_string('sitesubcategory', 'local_customhome'), $sub_kids);
+        $mform->hideIf('sub_kids', 'contentfocus', 'neq', 'kids');
+
+        $sub_business = ['leadership' => 'Leadership & Management', 'finance' => 'Finance & Accounting', 'marketing' => 'Digital Marketing'];
+        $mform->addElement('select', 'sub_business', get_string('sitesubcategory', 'local_customhome'), $sub_business);
+        $mform->hideIf('sub_business', 'contentfocus', 'neq', 'business');
+
+        $sub_hobby = ['diy' => 'Home & DIY', 'pet' => 'Pet Care & Training', 'gardening' => 'Gardening', 'cooking' => 'Cooking & Baking'];
+        $mform->addElement('select', 'sub_hobby', get_string('sitesubcategory', 'local_customhome'), $sub_hobby);
+        $mform->hideIf('sub_hobby', 'contentfocus', 'neq', 'hobby');
 
         // --- Platform Features ---
         $mform->addElement('header', 'hdr_features', get_string('features_hdr', 'local_customhome'));
@@ -114,7 +126,7 @@ class local_customhome_prompt_form extends moodleform {
         $tones = ['professional'=>'Professional & Trustworthy', 'fun'=>'Fun & Energetic', 'calm'=>'Calm & Minimalist', 'bold'=>'Bold & Innovative'];
         $mform->addElement('select', 'tone', get_string('coretone', 'local_customhome'), $tones);
 
-        $ctas = ['freetrial'=>'Start Free Trial', 'enroll'=>'Enroll Now', 'subscribe'=>'Subscribe', 'demo'=>'Book a Demo', 'learnmore'=>'Learn More'];
+        $ctas = ['freetrial'=>'Start Free Trial', 'joincommunity'=>'Join the Community', 'explore'=>'Explore Courses', 'register'=>'Register Now', 'booksession'=>'Book a Session', 'enroll'=>'Enroll Now', 'subscribe'=>'Subscribe', 'demo'=>'Book a Demo', 'learnmore'=>'Learn More'];
         $mform->addElement('select', 'primarycta', get_string('primarycta', 'local_customhome'), $ctas);
 
         $templates = [
@@ -125,13 +137,46 @@ class local_customhome_prompt_form extends moodleform {
         $mform->addElement('select', 'template', get_string('template', 'local_customhome'), $templates);
         $mform->setDefault('template', 'modern');
 
-        // Hero Video Link
+        // --- Branding & Contact ---
+        $mform->addElement('header', 'hdr_branding', get_string('hdr_branding', 'local_customhome'));
+        
+        $mform->addElement('text', 'slogan', get_string('slogan', 'local_customhome'), ['size' => '50']);
+        $mform->setType('slogan', PARAM_TEXT);
+
+        $mform->addElement('text', 'contactemail', get_string('contactemail', 'local_customhome'), ['size' => '50']);
+        $mform->setType('contactemail', PARAM_TEXT);
+
+        $mform->addElement('text', 'contactphone', get_string('contactphone', 'local_customhome'), ['size' => '30']);
+        $mform->setType('contactphone', PARAM_TEXT);
+
+        $mform->addElement('textarea', 'contactaddress', get_string('contactaddress', 'local_customhome'), ['wrap' => 'virtual', 'rows' => 3, 'cols' => 50]);
+        $mform->setType('contactaddress', PARAM_TEXT);
+
+        $mform->addElement('textarea', 'socialmedia', get_string('socialmedia', 'local_customhome'), ['wrap' => 'virtual', 'rows' => 3, 'cols' => 50]);
+        $mform->setType('socialmedia', PARAM_TEXT);
+        $mform->addHelpButton('socialmedia', 'socialmedia', 'local_customhome');
+
+        // --- Our Team ---
+        $mform->addElement('header', 'hdr_team', get_string('hdr_team', 'local_customhome'));
+        
+        $mform->addElement('textarea', 'teaminfo', get_string('teaminfo', 'local_customhome'), ['wrap' => 'virtual', 'rows' => 5, 'cols' => 50]);
+        $mform->setType('teaminfo', PARAM_TEXT);
+        $mform->addHelpButton('teaminfo', 'teaminfo', 'local_customhome');
+
+        // --- Media & About ---
+        $mform->addElement('header', 'hdr_videos', get_string('hdr_videos', 'local_customhome'));
+
         $mform->addElement('text', 'herovideo', get_string('herovideo', 'local_customhome'), ['size' => '50']);
         $mform->setType('herovideo', PARAM_URL);
 
-        // About Us / Vision
+        $mform->addElement('textarea', 'extravideos', get_string('extravideos', 'local_customhome'), ['wrap' => 'virtual', 'rows' => 3, 'cols' => 50]);
+        $mform->setType('extravideos', PARAM_TEXT);
+
         $mform->addElement('textarea', 'aboutus', get_string('aboutus', 'local_customhome'), ['wrap' => 'virtual', 'rows' => 5, 'cols' => 50]);
         $mform->setType('aboutus', PARAM_TEXT);
+
+        $mform->addElement('advcheckbox', 'includestats', get_string('keynumbers', 'local_customhome'), '', null, [0, 1]);
+        $mform->setDefault('includestats', 1);
 
         // Submit Button
         $this->add_action_buttons(false, get_string('generateprompt', 'local_customhome'));
@@ -153,25 +198,92 @@ $mform = new local_customhome_prompt_form();
 if ($data = $mform->get_data()) {
     global $DB, $CFG;
 
-    // Fetch visible categories from the database.
-    $categories = $DB->get_records_select('course_categories', 'visible = 1', null, 'sortorder ASC', 'id, name, description');
+    // Fetch visible categories and courses from the database.
+    $categories = $DB->get_records('course_categories', ['visible' => 1], 'sortorder ASC', 'id, parent, name, description');
+    $courses = $DB->get_records_select('course', 'visible = 1 AND category > 0', null, 'sortorder ASC', 'id, category, fullname, summary');
     
-    $cat_list = [];
-    foreach ($categories as $cat) {
-        $cat_list[] = "- " . format_string($cat->name);
-    }
-    $categories_text = implode("\n", $cat_list);
+    $tree = [];
+    $cat_refs = [];
 
-    $sitename = format_string($CFG->sitename);
+    // Initialize all categories in reference array.
+    foreach ($categories as $cat) {
+        $cat_refs[$cat->id] = [
+            'name' => format_string($cat->name),
+            'description' => trim(strip_tags(format_string($cat->description))),
+            'subcategories' => [],
+            'courses' => []
+        ];
+    }
+
+    // Assign courses to their categories.
+    foreach ($courses as $c) {
+        if (isset($cat_refs[$c->category])) {
+            $cat_refs[$c->category]['courses'][] = [
+                'name' => format_string($c->fullname),
+                'description' => trim(strip_tags(format_string($c->summary)))
+            ];
+        }
+    }
+
+    // Build the tree using the 'parent' field.
+    foreach ($categories as $cat) {
+        if (empty($cat->parent) || !isset($cat_refs[$cat->parent])) {
+            // Root category or parent is somehow missing/hidden.
+            $tree[] = &$cat_refs[$cat->id];
+        } else {
+            // Child category.
+            $cat_refs[$cat->parent]['subcategories'][] = &$cat_refs[$cat->id];
+        }
+    }
+
+    // Recursively remove empty arrays to keep JSON clean.
+    $clean_tree = function(&$node) use (&$clean_tree) {
+        if (empty($node['description'])) { unset($node['description']); }
+        if (empty($node['subcategories'])) {
+            unset($node['subcategories']);
+        } else {
+            foreach (array_keys($node['subcategories']) as $k) {
+                $clean_tree($node['subcategories'][$k]);
+            }
+        }
+        if (empty($node['courses'])) {
+            unset($node['courses']);
+        } else {
+            foreach (array_keys($node['courses']) as $k) {
+                if (empty($node['courses'][$k]['description'])) {
+                    unset($node['courses'][$k]['description']);
+                }
+            }
+        }
+    };
+    
+    foreach (array_keys($tree) as $k) {
+        $clean_tree($tree[$k]);
+    }
+
+    $categories_text = json_encode($tree, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+    $sitename = format_string(get_site()->fullname);
 
     // Extract Site Type
-    $sitecat_key = $data->sitecategory;
-    $subcategory_field = 'sub_' . $sitecat_key;
-    $subcategory = !empty($data->$subcategory_field) ? $data->$subcategory_field : '';
-    $site_type_str = $sitecat_key ? ucfirst($sitecat_key) . ($subcategory ? " ({$subcategory})" : '') : 'General E-Learning';
+    $data_sitetype = $data->sitetype ?? '';
+    $sitetypes_map = ['school'=>'School (K-12)', 'university'=>'University', 'corporate'=>'Corporate', 'marketplace'=>'Marketplace', 'coaching'=>'Coaching', 'ngo'=>'NGO', 'gov'=>'Government', 'religious'=>'Religious Institution', 'health'=>'Health & Medical'];
+    $sitetype_str = isset($sitetypes_map[$data_sitetype]) ? $sitetypes_map[$data_sitetype] : 'Educational Institution';
+
+    $data_contentfocus = $data->contentfocus ?? '';
+    $focuses_map = ['tech'=>'Tech & Coding', 'language'=>'Language Learning', 'islamic'=>'Islamic Education', 'creative'=>'Creative Arts', 'wellness'=>'Health & Wellness', 'academic'=>'Academic', 'kids'=>'Kids Learning', 'business'=>'Business & Professional', 'hobby'=>'Hobby & Lifestyle'];
+    $focus_str = isset($focuses_map[$data_contentfocus]) ? $focuses_map[$data_contentfocus] : 'General E-Learning';
+
+    $subcategory_field = 'sub_' . $data_contentfocus;
+    $subcategory_str = !empty($data->$subcategory_field) ? $data->$subcategory_field : '';
+
+    $site_identity = "Site Type: {$sitetype_str} | Content Focus: {$focus_str}";
+    if ($subcategory_str) {
+        $site_identity .= " | Sub-category: {$subcategory_str}";
+    }
 
     // Extract Languages
-    $selected_languages = !empty($data->languages) ? implode(', ', $data->languages) : 'English';
+    $selected_languages = !empty($data->languages) ? implode(', ', $data->languages) : 'None provided';
     
     // Extract Pages
     $selected_pages = [];
@@ -190,43 +302,117 @@ if ($data = $mform->get_data()) {
     $pages_string = !empty($selected_pages) ? implode(', ', $selected_pages) : 'Home, About Us, Courses';
 
     // Competitor features
+    $data_audience = $data->audience ?? '';
     $audience_map = ['beginners'=>'Beginners/Novices', 'professionals'=>'Working Professionals', 'children'=>'Children & Parents', 'hobbyists'=>'Hobbyists', 'corporates'=>'Corporate Entities'];
-    $audience = isset($audience_map[$data->audience]) ? $audience_map[$data->audience] : 'General learners';
+    $audience = isset($audience_map[$data_audience]) ? $audience_map[$data_audience] : 'General learners';
     
+    $data_tone = $data->tone ?? '';
     $tone_map = ['professional'=>'Professional & Trustworthy', 'fun'=>'Fun & Energetic', 'calm'=>'Calm & Minimalist', 'bold'=>'Bold & Innovative'];
-    $tone = isset($tone_map[$data->tone]) ? $tone_map[$data->tone] : 'Professional';
+    $tone = isset($tone_map[$data_tone]) ? $tone_map[$data_tone] : 'Professional';
     
-    $cta_map = ['freetrial'=>'Start Free Trial', 'enroll'=>'Enroll Now', 'subscribe'=>'Subscribe', 'demo'=>'Book a Demo', 'learnmore'=>'Learn More'];
-    $primarycta = isset($cta_map[$data->primarycta]) ? $cta_map[$data->primarycta] : 'Learn More';
+    $data_primarycta = $data->primarycta ?? '';
+    $cta_map = ['freetrial'=>'Start Free Trial', 'joincommunity'=>'Join the Community', 'explore'=>'Explore Courses', 'register'=>'Register Now', 'booksession'=>'Book a Session', 'enroll'=>'Enroll Now', 'subscribe'=>'Subscribe', 'demo'=>'Book a Demo', 'learnmore'=>'Learn More'];
+    $primarycta = isset($cta_map[$data_primarycta]) ? $cta_map[$data_primarycta] : 'Learn More';
+
+    $data_primarylanguage = $data->primarylanguage ?? '';
+    $primarylanguage_map = ['english'=>'English', 'arabic'=>'Arabic', 'french'=>'French', 'spanish'=>'Spanish', 'other'=>'Other'];
+    $primarylang_str = isset($primarylanguage_map[$data_primarylanguage]) ? $primarylanguage_map[$data_primarylanguage] : 'English';
+
+    $data_textdirection = $data->textdirection ?? '';
+    $directions_map = ['auto'=>'Auto-detect', 'ltr'=>'Left-to-Right (LTR)', 'rtl'=>'Right-to-Left (RTL)'];
+    $direction_str = isset($directions_map[$data_textdirection]) ? $directions_map[$data_textdirection] : 'Auto-detect';
+
+    $data_platformmodel = $data->platformmodel ?? '';
+    $models_map = ['free'=>'Free / Open Access', 'paid'=>'Paid Courses', 'subscription'=>'Subscription', 'freemium'=>'Freemium'];
+    $model_str = isset($models_map[$data_platformmodel]) ? $models_map[$data_platformmodel] : 'Paid Courses';
+
+    $slogan = !empty($data->slogan) ? $data->slogan : '';
+    $extravideos = !empty($data->extravideos) ? $data->extravideos : '';
+    $teaminfo = !empty($data->teaminfo) ? $data->teaminfo : '';
+    
+    // Contact Info string formatting
+    $contact_parts = [];
+    if (!empty($data->contactemail)) { $contact_parts[] = '- Email: ' . $data->contactemail; }
+    if (!empty($data->contactphone)) { $contact_parts[] = '- Phone: ' . $data->contactphone; }
+    if (!empty($data->contactaddress)) { $contact_parts[] = '- Address: ' . $data->contactaddress; }
+    if (!empty($data->socialmedia)) { $contact_parts[] = "- Social Media Links: \n   " . str_replace("\n", "\n   ", $data->socialmedia); }
+    $contact_str = implode("\n   ", $contact_parts);
+
+    $stats_str = "";
+    if (!empty($data->includestats)) {
+        // Fetch real Moodle stats.
+        $courses_count = max(0, $DB->count_records('course') - 1);
+        $users_count = $DB->count_records_select('user', 'deleted = 0 AND suspended = 0 AND id > 2');
+        
+        $oldest = $DB->get_field_sql("SELECT MIN(timecreated) FROM {course} WHERE id > 1");
+        $years_active = $oldest ? max(1, round((time() - $oldest) / YEARSECS)) : 1;
+        
+        $question_count = $DB->get_manager()->table_exists('question') ? $DB->count_records('question') : 0;
+        $modules_count = $DB->count_records('course_modules');
+        
+        $stats_str = "Please include a 'Platform Statistics' section featuring these real numbers:\n   - {$courses_count} Active Courses\n   - {$users_count} Registered Learners\n   - Over {$years_active} Years Active\n   - {$question_count} Questions in Bank\n   - {$modules_count} Learning Activities\n";
+    }
 
     // Build the prompt string.
     $prompt = "You are an expert web designer. I want you to create a high-converting, beautiful, responsive landing page using HTML and Tailwind CSS for my e-learning platform named '{$sitename}'.\n\n";
     
+    if ($slogan) {
+        $prompt .= "### SLOGAN / TAGLINE\n\"{$slogan}\"\n\n";
+    }
+
     $prompt .= "### PROJECT OVERVIEW\n";
-    $prompt .= "- **Site Type:** {$site_type_str}\n";
+    $prompt .= "- **Identity:** {$site_identity}\n";
+    $prompt .= "- **Business Model:** {$model_str}\n";
     $prompt .= "- **Target Audience:** {$audience}\n";
     $prompt .= "- **Vibe & Tone:** {$tone}\n";
-    $prompt .= "- **Supported Languages:** {$selected_languages}\n\n";
+    $prompt .= "- **Primary Language & Direction:** {$primarylang_str} ({$direction_str})\n";
+    $prompt .= "- **Other Supported Languages:** {$selected_languages}\n\n";
 
     $prompt .= "### DESIGN & CONTENT REQUIREMENTS\n";
     $prompt .= "1. **Design Style:** Choose a theme that fits the '{$data->template}' aesthetic.\n";
     
+    $prompt .= "2. **Hero Section:** Include a strong headline and a primary CTA button that says '{$primarycta}'. ";
     if (!empty($data->herovideo)) {
-        $prompt .= "2. **Hero Section:** Include an embedded video player or a placeholder for this video link: {$data->herovideo}. Make the CTA button say '{$primarycta}'.\n";
+        $prompt .= "Include an embedded video player or a placeholder for this video link: {$data->herovideo}.\n";
     } else {
-        $prompt .= "2. **Hero Section:** Include a strong headline and a primary CTA button that says '{$primarycta}'.\n";
+        $prompt .= "\n";
     }
+
+    $section_num = 3;
 
     if (!empty($data->aboutus)) {
-        $prompt .= "3. **About Us / Our Vision:** Include a section with the following exact text:\n   \"{$data->aboutus}\"\n";
+        $prompt .= "{$section_num}. **About Us / Our Vision:** Include a section with the following exact text:\n   \"{$data->aboutus}\"\n";
+        $section_num++;
     }
-    
-    $prompt .= "\n4. **Navigation Menu & Pages:** Include a clean, sticky navbar. Ensure navigation links for the following required pages: {$pages_string}.\n";
-    $prompt .= "   *(Note: You only need to code the Home page, but show these links in the header/footer)*\n";
 
-    $prompt .= "\n5. **Categories Section:** The platform has the following active course categories. Please display them as attractive cards or a grid:\n";
-    $prompt .= $categories_text . "\n";
-    
+    if ($stats_str) {
+        $prompt .= "{$section_num}. **Platform Statistics:** {$stats_str}\n";
+        $section_num++;
+    }
+
+    $prompt .= "{$section_num}. **Navigation Menu & Pages:** Include a clean, sticky navbar. Ensure navigation links for the following required pages: {$pages_string}.\n";
+    $prompt .= "   *(Note: You only need to code the Home page, but show these links in the header/footer)*\n";
+    $section_num++;
+
+    $prompt .= "{$section_num}. **Categories & Courses Data (JSON):** The platform has the following hierarchy of categories and courses. Please display them as attractive interactive cards, accordions, or a grid structure based on this JSON payload:\n";
+    $prompt .= "```json\n" . $categories_text . "\n```\n";
+    $section_num++;
+
+    if ($teaminfo) {
+        $prompt .= "{$section_num}. **Our Team Section:** Create a team grid with avatars using these details:\n   " . str_replace("\n", "\n   ", $teaminfo) . "\n";
+        $section_num++;
+    }
+
+    if ($extravideos) {
+        $prompt .= "{$section_num}. **Additional Media:** Embed or link the following extra videos in a relevant section:\n   " . str_replace("\n", "\n   ", $extravideos) . "\n";
+        $section_num++;
+    }
+
+    if ($contact_str) {
+        $prompt .= "{$section_num}. **Contact & Footer:** Include a footer with the following contact information & social links:\n   {$contact_str}\n";
+        $section_num++;
+    }
+
     $prompt .= "\n### TECHNICAL REQUIREMENTS\n";
     $prompt .= "- Return ONLY the complete HTML code containing the Tailwind CDN script in the <head>.\n";
     $prompt .= "- Include FontAwesome CDN for relevant icons.\n";

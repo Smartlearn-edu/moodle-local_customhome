@@ -62,3 +62,7 @@ $string['teaminfo_help'] = 'Enter team members one per line or paragraph. E.g., 
 $string['hdr_videos'] = 'Media & About';
 $string['extravideos'] = 'Additional Video Links';
 $string['keynumbers'] = 'Generate Key Platform Statistics (Auto-fetches Moodle Data)';
+$string['designreference'] = 'Design Reference URL (Elite Inspiration)';
+$string['designreference_help'] = 'Paste the URL of an elite website (e.g., avenues.org, top Webflow template) to instruct the AI to heavily emulate its premium layout, micro-interactions, and visual pacing.';
+$string['targetai'] = 'Target AI Tool';
+$string['targetai_help'] = 'Select the AI you plan to paste this prompt into. The prompt will automatically adapt its technical requirements for that specific AI\'s architecture (e.g., v0 prefers React, Bolt prefers Vite, IDE agents prefer file system commands).';

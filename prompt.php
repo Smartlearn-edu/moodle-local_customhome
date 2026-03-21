@@ -119,6 +119,23 @@ class local_customhome_prompt_form extends moodleform {
 
         // --- Design & Audience Preferences ---
         $mform->addElement('header', 'hdr_design', get_string('design_hdr', 'local_customhome'));
+        
+        $ailist = [
+            'claude' => 'Claude 3.5/3.7 (Artifacts) - Single HTML',
+            'chatgpt' => 'ChatGPT (GPT-4o/o1) - Strict No-Truncate HTML',
+            'v0' => 'v0 by Vercel - React Component',
+            'bolt' => 'Bolt.new / Lovable - Vite/React Web App',
+            'replit' => 'Replit Agent - Cloud Workspace',
+            'antigravity' => 'Antigravity (Me!) - Autonomous IDE Execution',
+            'cursor' => 'Cursor / Cline - IDE File Generation'
+        ];
+        $mform->addElement('select', 'targetai', get_string('targetai', 'local_customhome'), $ailist);
+        $mform->setDefault('targetai', 'claude');
+        $mform->addHelpButton('targetai', 'targetai', 'local_customhome');
+
+        $mform->addElement('text', 'designreference', get_string('designreference', 'local_customhome'), ['size' => '60']);
+        $mform->setType('designreference', PARAM_URL);
+        $mform->addHelpButton('designreference', 'designreference', 'local_customhome');
 
         $audiences = ['beginners'=>'Beginners/Novices', 'professionals'=>'Working Professionals', 'children'=>'Children & Parents', 'hobbyists'=>'Hobbyists', 'corporates'=>'Corporate Entities'];
         $mform->addElement('select', 'audience', get_string('targetaudience', 'local_customhome'), $audiences);
@@ -326,6 +343,9 @@ if ($data = $mform->get_data()) {
     $models_map = ['free'=>'Free / Open Access', 'paid'=>'Paid Courses', 'subscription'=>'Subscription', 'freemium'=>'Freemium'];
     $model_str = isset($models_map[$data_platformmodel]) ? $models_map[$data_platformmodel] : 'Paid Courses';
 
+    $designreference = !empty($data->designreference) ? $data->designreference : '';
+    $target_ai = !empty($data->targetai) ? $data->targetai : 'claude';
+
     $slogan = !empty($data->slogan) ? $data->slogan : '';
     $extravideos = !empty($data->extravideos) ? $data->extravideos : '';
     $teaminfo = !empty($data->teaminfo) ? $data->teaminfo : '';
@@ -413,11 +433,54 @@ if ($data = $mform->get_data()) {
         $section_num++;
     }
 
-    $prompt .= "\n### TECHNICAL REQUIREMENTS\n";
-    $prompt .= "- Return ONLY the complete HTML code containing the Tailwind CDN script in the <head>.\n";
-    $prompt .= "- Include FontAwesome CDN for relevant icons.\n";
-    $prompt .= "- The design must be modern, responsive, and ready to be used as an index.html file.\n";
-    $prompt .= "- Add subtle hover animations and transitions using Tailwind's utility classes.\n";
+    $prompt .= "\n### DESIGN AESTHETICS & ELITE PATTERNS (CRITICAL)\n";
+    
+    if ($designreference) {
+        $prompt .= "1. **Primary Design Reference (Crucial!):** Meticulously study and emulate the aesthetic layout, component sizing, spacing pacing, and high-end visual luxury of this exact URL/template: {$designreference}.\n";
+    }
+    
+    $prompt .= "2. **Design Quality (WOW Factor):** Do NOT build a basic, generic Minimum Viable Product. Create a breathtaking, creative, eye-catching, ultra-premium experience. Apply the visual storytelling logic of elite educational websites.\n";
+    $prompt .= "3. **Layout & Grids (Bento Box):** Reject standard, boring 3-column Bootstrap-style identical height cards. Instead, use beautiful asymmetrical, interlocking 'Bento Box' style CSS grid layouts, combining large feature blocks with smaller descriptive squares for sections like News, Courses, or Community.\n";
+    $prompt .= "4. **Expansive Hero & Storytelling:** The Hero section must be full-bleed (edge-to-edge), immersive, and visually explosive, accompanied by minimalist but massively impactful typography overlaid. Build a narrative flow as the user scrolls, pushing connection and value rather than just dumping course lists.\n";
+    $prompt .= "5. **Micro-Interactions & Parallax:** Implement smooth scroll-triggered fade-ins (reveal animations). Enhance user engagement with slow scale-zooms on images upon hover. Use Tailwind 'group', 'peer', and 'transition' classes heavily to make the interface feel alive.\n";
+    $prompt .= "6. **Editorial Typography & Hierarchy:** Avoid generic font pairing and never use browser-default fonts. Embed premium Google Fonts with extreme contrast: massive, elegant headings (using modern serif or geometric sans-serif) juxtaposed with ultra-legible body paragraphs.\n";
+    $prompt .= "7. **Visual Enrichment:** Emphasize smooth subtle gradients, premium soft high-spread box-shadows (e.g., shadow-2xl with low opacity), oversized border radiuses (e.g., rounded-3xl), subtle floating navigation bars, and extensive, luxurious whitespace.\n";
+
+    $prompt .= "\n### TECHNICAL SPECIFICATIONS FOR TARGET AI\n";
+    
+    switch ($target_ai) {
+        case 'claude':
+            $prompt .= "- **Output Format:** Supply exactly ONE complete, standalone `index.html` file (using Tailwind CSS via CDN and Google Fonts). Do not split CSS/JS into separate files. Utilize Artifacts to show me the result immediately.\n";
+            $prompt .= "- **Icons:** Include FontAwesome CDN for highly premium aesthetic iconography.\n";
+            break;
+        case 'chatgpt':
+            $prompt .= "- **Output Format:** Supply exactly ONE complete `index.html` file (with Tailwind CSS via CDN and FontAwesome setup).\n";
+            $prompt .= "- **CRITICAL RULE (DO NOT IGNORE):** Do NOT truncate code. Do NOT get lazy. It is strictly prohibited to use placeholders like `// ... rest of code`. You MUST output every single line from start to finish.\n";
+            break;
+        case 'v0':
+            $prompt .= "- **React & Components:** Generate a fully functional React functional component using Tailwind CSS and standard shadcn/ui library primitives.\n";
+            $prompt .= "- **Architecture:** Do not write raw old-school HTML. Use `lucide-react` for slick iconography and adhere strictly to v0 component structure compilation best practices. Make it look insanely gorgeous.\n";
+            break;
+        case 'bolt':
+            $prompt .= "- **Project Blueprint:** Initialize an entire Vite + React + Tailwind + TypeScript environment. Do not output a single HTML file.\n";
+            $prompt .= "- **Structure Check:** Generate necessary routing, mock APIs for the data provided above, and scaffold a beautiful folder structure (`/pages`, `/components`, `/assets`). Ensure the entire web application compiles successfully and flawlessly in your WebContainer.\n";
+            break;
+        case 'replit':
+            $prompt .= "- **Agentic Setup:** You are a Replit Agent. I need you to initialize an ultra-fast web application workspace (e.g., Vite/React or Next.js with Tailwind). Do the scaffolding autonomously.\n";
+            $prompt .= "- **Execution:** Automatically install required modules via terminal, spin up the webview, and build the UI. Mock the data accurately from the JSON provided.\n";
+            break;
+        case 'antigravity':
+            $prompt .= "- **Task Execution:** You are Antigravity, an elite autonomous DeepMind IDE agent! Create a new directory named `theme_export_preview` right here in the current workspace.\n";
+            $prompt .= "- **Implementation:** Write the HTML, CSS, and JS into neatly structured separate files within that directory. Once compiled, optionally use `run_command` to start a local development server (e.g. `python3 -m http.server` or `npm run dev`) so the user can instantly see your breathtaking work. Surprise me!\n";
+            break;
+        case 'cursor':
+            $prompt .= "- **IDE Composer Flow:** Use your file-writing intelligence to generate a structured local project folder system (`src/`, `components/`, etc). Do not just output heavy code blocks in chat.\n";
+            $prompt .= "- **Application:** Use Composer and your direct file system access to methodically generate, apply, and save the files directly into the editor workspace, ensuring everything resolves without build errors.\n";
+            break;
+    }
+
+    $prompt .= "- **General Polish:** The design must be exceptionally modern, completely responsive (mobile-first), and ready to run immediately in a browser/container.\n";
+    $prompt .= "- **Asset Policy:** Do not use ugly empty gray placeholders. If aesthetic imagery is required, embed visually striking Unsplash standard URLs (e.g., source.unsplash.com or specific beautiful stock URLs) to ensure the design feels real and expensive.\n";
 
     // Display the generated prompt.
     echo html_writer::tag('h3', get_string('generatedprompt', 'local_customhome'));

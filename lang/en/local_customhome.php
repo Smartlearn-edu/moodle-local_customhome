@@ -20,3 +20,27 @@ $string['aboutus'] = 'About Us / Vision';
 $string['generateprompt'] = 'Generate Prompt';
 $string['generatedprompt'] = 'Your Generated Prompt:';
 $string['copyclipboard'] = 'Copy prompt to clipboard';
+
+// New Prompt Generator Options
+$string['sitetype_hdr'] = 'Site Identity & Type';
+$string['sitecategory'] = 'Primary Site Category';
+$string['sitesubcategory'] = 'Sub-category';
+$string['cat_academic'] = 'Academic & Formal Education';
+$string['cat_corporate'] = 'Corporate Training';
+$string['cat_ecommerce'] = 'E-commerce / Course Selling';
+$string['cat_kids'] = 'Kids Learning';
+$string['cat_coaching'] = 'Coaching & Mentorship';
+$string['cat_health'] = 'Health & Fitness';
+$string['cat_creative'] = 'Creative Arts';
+$string['cat_tech'] = 'Tech & Coding';
+$string['cat_language'] = 'Language Learning';
+$string['cat_community'] = 'Community & Hobby';
+$string['features_hdr'] = 'Platform Features';
+$string['languages'] = 'Supported Languages';
+$string['languages_help'] = 'Select up to 5 languages that the site design should accommodate (e.g. for language switchers or RTL support).';
+$string['reqpages_hdr'] = 'Required Pages & Structure';
+$string['reqpages'] = 'Select Required Pages';
+$string['design_hdr'] = 'Design & Audience Preferences';
+$string['targetaudience'] = 'Primary Target Audience';
+$string['coretone'] = 'Desired Vibe / Tone';
+$string['primarycta'] = 'Primary Call-to-Action (CTA)';

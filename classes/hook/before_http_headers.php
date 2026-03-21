@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -33,13 +34,15 @@ namespace local_customhome\hook;
  * @copyright  2024 Smart Learn
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class before_http_headers {
+class before_http_headers
+{
     /**
      * Hook callback for core\hook\output\before_http_headers
      *
      * @param \core\hook\output\before_http_headers $hook
      */
-    public static function execute(\core\hook\output\before_http_headers $hook): void {
+    public static function execute(\core\hook\output\before_http_headers $hook): void
+    {
         global $PAGE;
 
         if ($PAGE->pagetype === 'site-index') {

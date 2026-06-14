@@ -253,6 +253,7 @@ if ($data = $mform->get_data()) {
         $catrefs[$cat->id] = [
             'name' => format_string($cat->name),
             'description' => trim(strip_tags(format_string($cat->description))),
+            'link' => $CFG->wwwroot . '/local/smartcatalog/?q=category0:' . $cat->id,
             'subcategories' => [],
             'courses' => []
         ];
@@ -263,7 +264,8 @@ if ($data = $mform->get_data()) {
         if (isset($catrefs[$c->category])) {
             $catrefs[$c->category]['courses'][] = [
                 'name' => format_string($c->fullname),
-                'description' => trim(strip_tags(format_string($c->summary)))
+                'description' => trim(strip_tags(format_string($c->summary))),
+                'link' => $CFG->wwwroot . '/enrol/index.php?id=' . $c->id
             ];
         }
     }
